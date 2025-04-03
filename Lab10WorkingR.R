@@ -79,8 +79,23 @@ margin_of_error_2 = middle_range_2/2
 
 # Create a df containing data from Gallup Survey
 
-gallup_data <- tibble(1004)
+gallup_data <- tibble(
+  response = c(rep(1, 319), rep(2, 592), rep(0, 20))
+)
 
+# Perform Resampling
+R = 10000
+for( i in 1:R){
+# Take a resample
+resample <- sample(x = gallup_data$response,
+                  size = 1004,
+                  replace = T) 
+  
+  resample_data <- tibble(resample) 
+  
+# Get Proportion
+  proportion_of_1s <- mean(gallup_data$response == 1)
+}
 
 
 
