@@ -17,7 +17,7 @@ ggplot(data = data_simulation_1, aes(x = x)) +
     color = "purple"
   ) +
   ggtitle("Data Simulation (Sample Size = 1004)")
-  
+
 # Shape is unimodal and centered around x=0.39 
 # mean(data_simulation_1$x)
 
@@ -80,22 +80,30 @@ margin_of_error_2 = middle_range_2/2
 # Create a df containing data from Gallup Survey
 
 gallup_data <- tibble(
-  response = c(rep(1, 319), rep(2, 592), rep(0, 20))
+  response = c(rep(1, 392), rep(2, 592), rep(0, 20))
 )
 
 # Perform Resampling
 R = 10000
+resamples <- tibble(p.hat = numeric(R))
+
 for( i in 1:R){
-# Take a resample
-resample <- sample(x = gallup_data$response,
-                  size = 1004,
-                  replace = T) 
-  
-  resample_data <- tibble(resample) 
-  
-# Get Proportion
-  proportion_of_1s <- mean(gallup_data$response == 1)
+  # Take a resample
+  resample <- sample(x = gallup_data$response,
+                     size = 1004,
+                     replace = T) 
+  resamples$p.hat[i] <- mean(resample==1)
 }
+
+# Plot a histogram of the resampling data
+ggplot(data = resamples, aes(x = p.hat)) +
+  geom_histogram(
+    aes(y = ..density..),  
+  ) +
+  geom_density(
+    color = "purple"
+  ) + 
+  ggtitle("Resampling Data")
 
 
 
