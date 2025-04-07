@@ -117,12 +117,62 @@ middle_rangeR <- upper_boundR - lower_boundR
 # What is the margin of error?
 margin_of_error_R = middle_rangeR/2
 # Margin of error is ~3%
-margin_of_error
-margin_of_error_2
-margin_of_error_R
-
 # This margin of error of ~3% is better than Gallup's margin of error of 4%
 
+####################################################################################################
+# Task 3: Simulation over n and p
 
-# Simulation over n and p
+###########################################################
+
+# Simulation over n
+
+n <- seq(from = 100, to = 3000, by = 10)
+margin_errors <- numeric(length(n))
+
+for (i in 1:length(n)) {
+  current_n <- n[i]
+  # Generate 10000 simulations for current sample size
+  simulations <- rbinom(10000, size = current_n, prob = 0.39) / current_n
+  
+  # Calculate percentiles
+  lower_bound <- quantile(simulations, 0.025)
+  upper_bound <- quantile(simulations, 0.975)
+  
+  # Store half the range (margin of error)
+  margin_errors[i] <- (upper_bound - lower_bound) / 2
+}
+
+# Create a dataframe with results
+simulation_results_n <- tibble(
+  n = n,
+  margin_of_error = margin_errors
+)
+
+###########################################################
+# Simulation over p
+p <- seq(from = 0.01, to = 0.99, by = 0.01)
+margin_errors <- numeric(length(p))
+
+for (i in 1:length(p)) {
+  current_p <- p[i]
+  # Generate 10000 simulations for current probability
+  simulations <- rbinom(10000, size = 1004, prob = current_p) / 1004
+  
+  # Calculate percentiles
+  lower_bound <- quantile(simulations, 0.025)
+  upper_bound <- quantile(simulations, 0.975)
+  
+  # Store half the range (margin of error)
+  margin_errors[i] <- (upper_bound - lower_bound) / 2
+}
+
+# Create a dataframe with results
+simulation_results_p <- tibble(
+  p = p,
+  margin_of_error = margin_errors
+)
+
+###########################################################
+
+# Create a geom_raster() plot
 
