@@ -53,8 +53,8 @@ ggplot(data = data_simulation_2, aes(x = x)) +
   ) + 
   ggtitle("Data Simulation (Sample Size = 2008)")
 
-
-# Shape is unimodal and centered around x=0.78 
+# What do we notice about the shape?
+# Shape is unimodal and centered around x=0.39 
 # mean(data_simulation_2$x)
 
 
@@ -105,5 +105,19 @@ ggplot(data = resamples, aes(x = p.hat)) +
   ) + 
   ggtitle("Resampling Data")
 
+# What do we notice about the shape?
+# Shape is unimodal and centered around x=0.39
 
+# What is the range of the middle 95%?
+lower_boundR <- quantile(resamples$p.hat, 0.025) 
+upper_boundR <- quantile(resamples$p.hat, 0.975) 
+middle_rangeR <- upper_boundR - lower_boundR
+# Range of middle 95% is ~0.06
+
+# What is the margin of error?
+margin_of_error_R = middle_rangeR/2
+# Margin of error is ~3%
+margin_of_error
+margin_of_error_2
+margin_of_error_R
 
