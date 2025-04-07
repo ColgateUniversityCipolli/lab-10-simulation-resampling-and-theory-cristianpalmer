@@ -145,7 +145,7 @@ for (i in 1:length(n)) {
 # Create a dataframe with results
 simulation_results_n <- tibble(
   n = n,
-  margin_of_error = margin_errors
+  margin_of_error_n = margin_errors
 )
 
 ###########################################################
@@ -169,10 +169,21 @@ for (i in 1:length(p)) {
 # Create a dataframe with results
 simulation_results_p <- tibble(
   p = p,
-  margin_of_error = margin_errors
+  margin_of_error_p = margin_errors
 )
 
 ###########################################################
 
 # Create a geom_raster() plot
+
+
+
+
+
+
+
+
+####################################################################################################
+# Task 4: Actual Margin of Error Calculation
+
 
