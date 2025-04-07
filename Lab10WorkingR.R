@@ -121,3 +121,8 @@ margin_of_error
 margin_of_error_2
 margin_of_error_R
 
+# This margin of error of ~3% is better than Gallup's margin of error of 4%
+
+
+# Simulation over n and p
+
