@@ -186,4 +186,14 @@ simulation_results_p <- tibble(
 ####################################################################################################
 # Task 4: Actual Margin of Error Calculation
 
+# Calculate Wilson Estimate
+
+
+
+Numerator = X + (1/2)(Z^2)
+Denominator = n + (Z^2)
+Wilson_Estimate + Numerator/Denominator
+
+
+
 
