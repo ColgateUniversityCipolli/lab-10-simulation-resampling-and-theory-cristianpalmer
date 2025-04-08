@@ -163,38 +163,96 @@ for (i in 1:length(n)) {
 }
 
 ###########################################################
-
 # Create a geom_raster() plot
 
-
-
-
-
-
-
+raster_simulation <- ggplot(results_tibble, aes(x = p, y = n, fill = margin_error)) +
+  geom_raster(interpolate = TRUE) +
+  scale_fill_gradient2(
+    low = "blue", 
+    mid = "white", 
+    high = "red", 
+    midpoint = median(results_tibble$margin_error),
+    name = "Margin of Error"
+  ) +
+  scale_y_continuous(expand = c(0, 0), breaks = seq(500, 3000, 500)) +
+  scale_x_continuous(expand = c(0, 0), breaks = seq(0, 1, 0.1)) +
+  labs(
+    title = "Margin of Error for Different Sample Sizes and Probabilities",
+    subtitle = "Based on 10,000 binomial simulations per parameter combination",
+    x = "Probability (p)",
+    y = "Sample Size (n)"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "right",
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(face = "bold"),
+    axis.text = element_text(size = 9)
+  )
 
 ####################################################################################################
 # Task 4: Actual Margin of Error Calculation
-
-# Calculate Wilson Estimate
-
-
-
 n <- seq(from = 100, to = 3000, by = 10)
-p = 0.39
-X = 1004
+p <- seq(from = 0.01, to = 0.99, by = 0.01)
+z <- qnorm(0.975)  # z-score for 95% confidence
 
+# Create initial tibble
+results_tibble_math <- tibble(
+  n = integer(),
+  p = numeric(),
+  margin_error = numeric()  # Using consistent column name
+)
+
+# Run calculations and save results
 for (i in 1:length(n)) {
-  current_n <- n[i]
-  
-  p_hat = X/n
-  
-  Z <- (p_hat - p)/(sqrt((p*(1-p))/n))
-  
-  Numerator = X + (1/2)*(Z^2)
-  Denominator = n + (Z^2)
-  Wilson_Estimate = Numerator/Denominator
+  for (j in 1:length(p)) {
+    
+    current_n <- n[i]
+    current_p <- p[j]
+    
+    # Calculate Wilson margin of error
+    numerator <- z * sqrt((current_n * current_p * (1-current_p)) + (z^2)/4)
+    denominator <- current_n + (z^2)
+    Wilson_MOE <- numerator / denominator
+    
+    # Add row to the tibble
+    results_tibble_math <- results_tibble_math %>%
+      add_row(
+        n = current_n,
+        p = current_p,
+        margin_error = Wilson_MOE  
+      )
+  }
 }
 
+###########################################################
+# Create a geom_raster() plot using the Wilson margin of error calculations
+raster_math <- ggplot(results_tibble_math, aes(x = p, y = n, fill = margin_error)) +
+  geom_raster(interpolate = TRUE) +
+  scale_fill_gradient2(
+    low = "blue", 
+    mid = "white", 
+    high = "red", 
+    midpoint = median(results_tibble_math$margin_error),
+    name = "Margin of Error"
+  ) +
+  scale_y_continuous(expand = c(0, 0), breaks = seq(500, 3000, 500)) +
+  scale_x_continuous(expand = c(0, 0), breaks = seq(0, 1, 0.1)) +
+  labs(
+    title = "Wilson Margin of Error for Different Sample Sizes and Proportions",
+    subtitle = "95% Confidence Level",
+    x = "Proportion (p)",
+    y = "Sample Size (n)"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "right",
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(face = "bold"),
+    axis.text = element_text(size = 9)
+  )
 
-
+# Combine plots
+library(patchwork)
+combined_plot <- (raster_simulation + raster_math)
+combined_plot
