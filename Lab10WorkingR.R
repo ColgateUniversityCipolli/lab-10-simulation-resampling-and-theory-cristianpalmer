@@ -124,53 +124,43 @@ margin_of_error_R = middle_rangeR/2
 
 ###########################################################
 
-# Simulation over n
-
+# Simulation over n and p
 n <- seq(from = 100, to = 3000, by = 10)
-margin_errors <- numeric(length(n))
-
-for (i in 1:length(n)) {
-  current_n <- n[i]
-  # Generate 10000 simulations for current sample size
-  simulations <- rbinom(10000, size = current_n, prob = 0.39) / current_n
-  
-  # Calculate percentiles
-  lower_bound <- quantile(simulations, 0.025)
-  upper_bound <- quantile(simulations, 0.975)
-  
-  # Store half the range (margin of error)
-  margin_errors[i] <- (upper_bound - lower_bound) / 2
-}
-
-# Create a dataframe with results
-simulation_results_n <- tibble(
-  n = n,
-  margin_of_error_n = margin_errors
-)
-
-###########################################################
-# Simulation over p
 p <- seq(from = 0.01, to = 0.99, by = 0.01)
-margin_errors <- numeric(length(p))
 
-for (i in 1:length(p)) {
-  current_p <- p[i]
-  # Generate 10000 simulations for current probability
-  simulations <- rbinom(10000, size = 1004, prob = current_p) / 1004
-  
-  # Calculate percentiles
-  lower_bound <- quantile(simulations, 0.025)
-  upper_bound <- quantile(simulations, 0.975)
-  
-  # Store half the range (margin of error)
-  margin_errors[i] <- (upper_bound - lower_bound) / 2
-}
-
-# Create a dataframe with results
-simulation_results_p <- tibble(
-  p = p,
-  margin_of_error_p = margin_errors
+# Create initial tibble
+results_tibble <- tibble(
+  n = integer(),
+  p = numeric(),
+  margin_error = numeric()
 )
+
+# Run simulations and save results
+for (i in 1:length(n)) {
+  for (j in 1:length(p)) {
+    
+    current_n <- n[i]
+    current_p <- p[j]
+    
+    # Generate 10000 simulations for current sample size
+    simulations <- rbinom(10000, size = current_n, prob = current_p) / current_n
+    
+    # Calculate percentiles
+    lower_bound <- quantile(simulations, 0.025)
+    upper_bound <- quantile(simulations, 0.975)
+    
+    # Calculate margin of error
+    current_margin_error <- (upper_bound - lower_bound) / 2
+    
+    # Add row to the tibble
+    results_tibble <- results_tibble %>%
+      add_row(
+        n = current_n,
+        p = current_p,
+        margin_error = current_margin_error
+      )
+  }
+}
 
 ###########################################################
 
@@ -190,10 +180,21 @@ simulation_results_p <- tibble(
 
 
 
-Numerator = X + (1/2)(Z^2)
-Denominator = n + (Z^2)
-Wilson_Estimate + Numerator/Denominator
+n <- seq(from = 100, to = 3000, by = 10)
+p = 0.39
+X = 1004
 
+for (i in 1:length(n)) {
+  current_n <- n[i]
+  
+  p_hat = X/n
+  
+  Z <- (p_hat - p)/(sqrt((p*(1-p))/n))
+  
+  Numerator = X + (1/2)*(Z^2)
+  Denominator = n + (Z^2)
+  Wilson_Estimate = Numerator/Denominator
+}
 
 
 
