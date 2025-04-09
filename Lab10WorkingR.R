@@ -167,13 +167,7 @@ for (i in 1:length(n)) {
 
 raster_simulation <- ggplot(results_tibble, aes(x = p, y = n, fill = margin_error)) +
   geom_raster(interpolate = TRUE) +
-  scale_fill_gradient2(
-    low = "blue", 
-    mid = "white", 
-    high = "red", 
-    midpoint = median(results_tibble$margin_error),
-    name = "Margin of Error"
-  ) +
+  scale_fill_viridis_c("Margin of Error", limits=c(0, 0.11))+
   scale_y_continuous(expand = c(0, 0), breaks = seq(500, 3000, 500)) +
   scale_x_continuous(expand = c(0, 0), breaks = seq(0, 1, 0.1)) +
   labs(
@@ -227,15 +221,10 @@ for (i in 1:length(n)) {
 
 ###########################################################
 # Create a geom_raster() plot using the Wilson margin of error calculations
+
 raster_math <- ggplot(results_tibble_math, aes(x = p, y = n, fill = margin_error)) +
   geom_raster(interpolate = TRUE) +
-  scale_fill_gradient2(
-    low = "green", 
-    mid = "pink", 
-    high = "yellow", 
-    midpoint = median(results_tibble_math$margin_error),
-    name = "Margin of Error"
-  ) +
+  scale_fill_viridis_c("Margin of Error", limits=c(0, 0.11))+
   scale_y_continuous(expand = c(0, 0), breaks = seq(500, 3000, 500)) +
   scale_x_continuous(expand = c(0, 0), breaks = seq(0, 1, 0.1)) +
   labs(
