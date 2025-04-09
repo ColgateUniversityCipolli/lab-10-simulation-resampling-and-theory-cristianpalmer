@@ -230,9 +230,9 @@ for (i in 1:length(n)) {
 raster_math <- ggplot(results_tibble_math, aes(x = p, y = n, fill = margin_error)) +
   geom_raster(interpolate = TRUE) +
   scale_fill_gradient2(
-    low = "blue", 
-    mid = "white", 
-    high = "red", 
+    low = "green", 
+    mid = "pink", 
+    high = "yellow", 
     midpoint = median(results_tibble_math$margin_error),
     name = "Margin of Error"
   ) +
