@@ -256,3 +256,8 @@ raster_math <- ggplot(results_tibble_math, aes(x = p, y = n, fill = margin_error
 library(patchwork)
 combined_plot <- (raster_simulation + raster_math)
 combined_plot
+
+# Checking work
+
+(mean(results_tibble$margin_error))
+(mean(results_tibble_math$margin_error))
