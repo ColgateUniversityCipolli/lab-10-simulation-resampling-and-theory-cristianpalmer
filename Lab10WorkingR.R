@@ -171,8 +171,8 @@ raster_simulation <- ggplot(results_tibble, aes(x = p, y = n, fill = margin_erro
   scale_y_continuous(expand = c(0, 0), breaks = seq(500, 3000, 500)) +
   scale_x_continuous(expand = c(0, 0), breaks = seq(0, 1, 0.1)) +
   labs(
-    title = "Margin of Error for Different Sample Sizes and Probabilities",
-    subtitle = "Based on 10,000 binomial simulations per parameter combination",
+    title = "Simulation Margin of Error for Different Sample Sizes and Probabilities",
+    subtitle = "Based on 10,000 Simulations for n in {100, 110, 120, ..., 3000} and p in {0.01, 0.02, ..., 0.99}",
     x = "Probability (p)",
     y = "Sample Size (n)"
   ) +
@@ -229,7 +229,7 @@ raster_math <- ggplot(results_tibble_math, aes(x = p, y = n, fill = margin_error
   scale_x_continuous(expand = c(0, 0), breaks = seq(0, 1, 0.1)) +
   labs(
     title = "Wilson Margin of Error for Different Sample Sizes and Proportions",
-    subtitle = "95% Confidence Level",
+    subtitle = "95% Confidence Level for n in {100, 110, 120, ..., 2000} and p in {0.01, 0.02, ..., 0.99}",
     x = "Proportion (p)",
     y = "Sample Size (n)"
   ) +
