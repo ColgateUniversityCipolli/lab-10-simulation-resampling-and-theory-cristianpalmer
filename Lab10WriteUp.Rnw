@@ -41,52 +41,68 @@
 %\raggedcolumns % If your spacing gets messed up try uncommenting 
                 % this line
 \begin{abstract}
-This document provides a basic template for the 2-page labs we will complete each week. Here, briefly summarize what you did and why it might be helpful. Provide all the top-line conclusions, but avoid providing \emph{all} the details. Results should be limited to ``we show X, Y, and Z."
+In this lab we were interested in studying margin of error, specifically the accuracy and methodology of polling margins of error. Specifically, we used a February 2025 Gallup poll conducted to gauge how happy American adults are with the current state of the country We focused on Gallup's published guidelines stating that doubling the sample size from 1000 to 2000 would lower the margin of error from plus or minus 4 \% to plus or minus 2 \%. Subsequently, we employed multiple statistical approaches including simulation, resampling, and theoretical calculations to examine how margins of error behave across different sample sizes and population proportions. Ultimately, through graphing and statistical analysis, we found that the Gallup guidelines on margin of error are accurate for the most part, although slightly conservative in certain scenarios. We also were able to find evidence suggesting that resampling data provides us with nearly identical results to running a simulation with typically unobtainable sample sizes.
+
 \end{abstract}
 
-\noindent \textbf{Keywords:} What topics does the lab cover concerning class? List 3-4 key terms here, separated by semicolons.
-
 \section{Introduction}
-Provide an overarching summary of what you're talking about. In this section, you introduce the idea to the reader, and your goal is to pull them in. What's the mystery you aim to solve?
-
-You want to provide enough background to understand the context of the work. Specifically, what is the question you are addressing? If it applies, describe what information currently exists about this problem, including citations, and explain how the question you're answering complements this work.
-
-Provide a roadmap of the structure of the paper. 
-
-\subsection{Intro Subsection}
-You might need/want to discuss the topics in subsections. Or, you may have multiple questions.
-
+Our goal throughout this lab was to investigate the statistical principles behind polling margins of error and test the validity of Gallup's published guidelines regarding sample size and accuracy. In particular, we examined how changes in sample size and population proportions affect margin of error calculations in practice. We approached this question in multiple ways including simulations, resampling, and mathematical calculations. For each approach, we were able to graph and analyze our findings in ways which allowed us to compare our results to each other and to the Gallup results. Specifically, in this lab we graphically focused on creating histograms and raster plots to analyze and compare our results from each approach. Throughout this lab, we were able to systematically evaluate each aspect of margin of error estimation and develop a comprehensive understanding of how simulation compares to resampling compares to mathematical calculation. We also discovered when Gallup's guidelines are most applicable and when they might overstate the uncertainty in polling results. 
 
 \section{Methods}
-Describe the data you are working with, if applicable. Describe the specific process you will follow to answer the question at hand. This does not mean you should write something like this.
-\begin{quote}
-\textit{I did this and then I did that and then I did this other thing and then..., and then..., and then...}
-\end{quote}
-Instead, it should provide a clear and concise narrative that flows from the problem specification in the Introduction to how you will approach answering it. This is where I would expect to see some citations for \texttt{R} packages you will use to conduct the statistical analysis reported in the Results section.
+Our first task in this lab was to conduct a basic simulation study and compare the margin of error of our study to the Gallup margin of error. Assuming that the true probability that someone is satisfied with the position of the United States in the world today is 0.39, we were tasked with using \texttt{rbinom()} to generate 10k polls, each with a sample size of 1004 which is the sample size that Gallup used. Subsequently, we plotted a histogram of the resulting sample proportions with a superimposed density to provide a visual approximation of the sampling distribution for the sample proportion. To calculate the margin of error, we used the \texttt{quantile()} function to calculate the middle range of the middle 95 \% of the data. The marginal error is equal to half of that range. After finishing our first simulation, we repeated the process, doubling the sample size to 2008, twice as much as the original Gallup poll.
+\newline
+\indent 
+After completing our simulations, our next task was to perform resampling on the actual Gallup data specified to us in the lab's directions. First, we had to create a tibble of the data based on what the lab's directions specify. Once we had the data, we used the \texttt{sample()} function, specifying \texttt{replace = T}. Specifying \texttt{replace = T} is what makes this a resampling. It is important to note that to perform this resampling, we had to keep the sample size the same as the data, which was 1004. Same to how we graphed the simulations, we  subsequently plotted a histogram of the resulting resampling proportions with a superimposed density.
+\newline
+\indent 
+Next, we completed another simulation, similar to before except this time the simulation was over \textit{n} and \textit{p}. Specifically, we performed 10000 simulations for \textit{n} in \verb|{100, 110, 120, ..., 3000}| and \textit{p} in \verb|{0.01, 0.02, ..., 0.99}|. For each iteration, we stored half of the range between the 2.5th and 97.5th percentiles which we calculated the same was as we did in our previous simulations. To summarize these results, we created a raster plot with \texttt{geom\_raster()}, comparing the population proportion to the sample size.
+\newline
+\indent 
+Finally, our last task was to perform the Wilson margin of error calculation to determine what the true margin of error is for the simulation which we performed in the previous step. In our lab directions the algebra was all done out for us, leaving us to compute only the final part of the equation. By breaking up the equation into a numerator and denominator, we were able to write calculations for each part in terms of \textit{n}, \textit{p}, and \textit{z}. Both \textit{n}, \textit{p} are the sample size and proportions which we are varying. On the other hand, \textit{z} is the z-score corresponding to 95\% confidence, which we calculated using \texttt{qnorm(0.975)}, yielding a value of approximately 1.96.  We ran the simulation inputting the various \textit{n} and \textit{p} values into the equation. As we did for the resampling data collection, we also stored half of the range between the 2.5th and 97.5th percentiles and graphed the results raster plot comparing the population proportion to the sample size.
 
 
-\subsection{Methods Subsection}
-Much like the Introduction, subsections can be helpful for the Methods section. For example, you might describe data collection and the statistical analyses of the collected data in different subsections. Or, you may have different questions that require distinct methods. 
+
+
 
 \section{Results}
-Tie together the Introduction -- where you introduce the problem at hand -- and the methods --  what you propose to do to answer the question. Present your data, the results of your analyses, and how each reported aspect contributes to answering the question. This section should include table(s), statistic(s), and graphical displays. Make sure to put the results in a sensible order and that each result contributes a logical and developed solution. It should not just be a list. Avoid being repetitive. 
-
-\subsection{Results Subsection}
-Subsections can be helpful for the Results section, too. This can be particularly helpful if you have different questions to answer. 
+Pictured below is the histogram showing the simulation we ran with a sample size of 1004.
+\includegraphics[width=0.435\textwidth]{1004Simulation.pdf}
+\indent 
+This histogram is unimodal and is centered around p-hat=0.39. The margin of error comes out to about 3 \%, which is actually slightly less than Gallup's margin of error of 4 \&. Since our margin of error came out to be a little less than Gallup's, it is possible that they were slightly conservative when reporting their margin of error for their actual sample size.
+\newline
+\indent 
+Now, we can take a look at the histogram showing the sample size of 2008, twice the original size.
+\begin{center}
+  \includegraphics[width=0.435\textwidth]{2008sample.pdf}
+\end{center}
+\indent 
+This histogram looks extremely similiar to the one we just saw. It is also unimodal, and is also centered around p-hat=0.39. For this sample size, the margin of error comes out to just around 2 \%, which is what Gallup predicted it would be if they were able to have double the sample size.
+\newline
+\indent
+Unsurprisingly, the resampling histogram seen below looks extremely similiar to the previous two graphs.
+\includegraphics[width=0.435\textwidth]{resampling.pdf}
+\indent 
+Just like the previous histograms, this one is also unimodal and centered around p-hat=0.39. Similarily to our first simulations graph, the margin of error found by resampling is just about 3 \%, which as we saw is slightly lower than Gallup's reported 4 \%.
+\newline
+\indent
+Finally, we have the two raster plots which have been combined using \texttt{patchwork} \citep{patchwork}, and placed in the Appendix so that the nuanced differences between the plots can be more easily recognized. Graphically, these two plots appear to be nearly identical, which is because they are in fact nearly identical. Together, these plots show how resampling data provides us with nearly identical results to running a simulation with typically unobtainable sample sizes. The only difference in the plots is the pixelation which can be seen around the base of the simulation graph. The pixelation is a visual artifact of limited data in the simulation. The math-based plot, however, is built from smooth theoretical models. 
 
 
 \section{Discussion}
- You should objectively evaluate the evidence you found in the data. Do not embellish or wish-terpet (my made-up phase for making an interpretation you, or the researcher, wants to be true without the data \emph{actually} supporting it). Connect your findings to the existing information you provided in the Introduction.
+This lab explored margin of error in polling data using simulations, resampling, and mathematical calculations. Our findings largely confirmed Gallup's guideline that doubling the sample size from 1000 to 2000 reduces the margin of error from 4 \% to 2 \%, though our simulation with a sample size of 1004 showed a slightly lower margin of error when compared to Gallup's. Furthermore, our Resampling method provided results nearly identical to our simulation method, demonstrating the effectiveness of bootstrapping when larger sample sizes aren't available. Overall, this lab validated Gallup's claims and highlighted the close alignment between simulation-based and theoretical approaches to margin of error estimation.
 
-Finally, provide some concluding remarks that tie together the entire paper. Think of the last part of the results as abstract-like. Tell the reader what they just consumed -- what's the takeaway message?
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Bibliography
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \vspace{2em}
 
-\noindent\textbf{Bibliography:} Note that when you add citations to your bib.bib file \emph{and}
-you cite them in your document, the bibliography section will automatically populate here.
+
+\nocite{patchwork}
+\nocite{tidyverse}
 
 \begin{tiny}
 \bibliography{bib}
@@ -99,7 +115,10 @@ you cite them in your document, the bibliography section will automatically popu
 \newpage
 \onecolumn
 \section{Appendix}
-
-If you have anything extra, you can add it here in the appendix. This can include images or tables that don't work well in the two-page setup, code snippets you might want to share, etc.
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=.97\textwidth, trim=0 0 0 0, clip]{Combined.png}
+    \caption{Side by Side Raster Plots Comparing Margin of Error Estimates: Simulation vs. Wilson Formula}
+\end{figure}
 
 \end{document}

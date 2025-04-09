@@ -6,17 +6,18 @@ library(tidyverse)
 # Task 1: Basic Simulation
 
 # Use rbinom() to generate data
-data_simulation_1 <- tibble(x=rbinom(10000, size = 1004, prob = 0.39)) /1004
+data_simulation_1 <- tibble(p.hat=rbinom(10000, size = 1004, prob = 0.39)) /1004
 
 # Plot a histogram of the data
-ggplot(data = data_simulation_1, aes(x = x)) +
+ggplot(data = data_simulation_1, aes(x = p.hat)) +
   geom_histogram(
     aes(y = ..density..),  
   ) +
   geom_density(
     color = "purple"
   ) +
-  ggtitle("Data Simulation (Sample Size = 1004)")
+  ggtitle("Data Simulation (Sample Size = 1004)")+
+  xlab("P Hat")
 
 # Shape is unimodal and centered around x=0.39 
 # mean(data_simulation_1$x)
@@ -24,8 +25,8 @@ ggplot(data = data_simulation_1, aes(x = x)) +
 
 # What is the range of the middle 95%?
 
-lower_bound <- quantile(data_simulation_1$x, 0.025) 
-upper_bound <- quantile(data_simulation_1$x, 0.975) 
+lower_bound <- quantile(data_simulation_1$p.hat, 0.025) 
+upper_bound <- quantile(data_simulation_1$p.hat, 0.975) 
 middle_range <- upper_bound - lower_bound
 
 # Range of middle 95% is ~0.06
@@ -41,17 +42,18 @@ margin_of_error = middle_range/2
 
 # Task 1 Part 2: Repeat Simulation for Double Sample Size 
 
-data_simulation_2 <- tibble(x=rbinom(10000, size = 1004*2, prob = 0.39)) /(1004*2)
+data_simulation_2 <- tibble(p.hat=rbinom(10000, size = 1004*2, prob = 0.39)) /(1004*2)
 
 # Plot a histogram of the data
-ggplot(data = data_simulation_2, aes(x = x)) +
+ggplot(data = data_simulation_2, aes(x = p.hat)) +
   geom_histogram(
     aes(y = ..density..),  
   ) +
   geom_density(
     color = "purple"
   ) + 
-  ggtitle("Data Simulation (Sample Size = 2008)")
+  ggtitle("Data Simulation (Sample Size = 2008)") +
+  xlab("P Hat")
 
 # What do we notice about the shape?
 # Shape is unimodal and centered around x=0.39 
@@ -60,8 +62,8 @@ ggplot(data = data_simulation_2, aes(x = x)) +
 
 # What is the range of the middle 95%?
 
-lower_bound_2 <- quantile(data_simulation_2$x, 0.025) 
-upper_bound_2 <- quantile(data_simulation_2$x, 0.975) 
+lower_bound_2 <- quantile(data_simulation_2$p.hat, 0.025) 
+upper_bound_2 <- quantile(data_simulation_2$p.hat, 0.975) 
 middle_range_2 <- upper_bound_2 - lower_bound_2
 
 # Range is ~0.06
@@ -103,7 +105,8 @@ ggplot(data = resamples, aes(x = p.hat)) +
   geom_density(
     color = "purple"
   ) + 
-  ggtitle("Resampling Data")
+  ggtitle("Resampling Data")+
+  xlab("P Hat")
 
 # What do we notice about the shape?
 # Shape is unimodal and centered around x=0.39
@@ -173,7 +176,7 @@ raster_simulation <- ggplot(results_tibble, aes(x = p, y = n, fill = margin_erro
   labs(
     title = "Simulation Margin of Error for Different Sample Sizes and Probabilities",
     subtitle = "Based on 10,000 Simulations for n in {100, 110, 120, ..., 3000} and p in {0.01, 0.02, ..., 0.99}",
-    x = "Probability (p)",
+    x = "Population Proportion (p)",
     y = "Sample Size (n)"
   ) +
   theme_minimal() +
@@ -230,7 +233,7 @@ raster_math <- ggplot(results_tibble_math, aes(x = p, y = n, fill = margin_error
   labs(
     title = "Wilson Margin of Error for Different Sample Sizes and Proportions",
     subtitle = "95% Confidence Level for n in {100, 110, 120, ..., 2000} and p in {0.01, 0.02, ..., 0.99}",
-    x = "Proportion (p)",
+    x = "Population Proportion (p)",
     y = "Sample Size (n)"
   ) +
   theme_minimal() +
