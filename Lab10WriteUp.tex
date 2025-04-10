@@ -92,7 +92,7 @@
 %\raggedcolumns % If your spacing gets messed up try uncommenting 
                 % this line
 \begin{abstract}
-In this lab we were interested in studying margin of error, specifically the accuracy and methodology of polling margins of error. We used a February 2025 Gallup poll which was conducted to gauge how happy American adults are with the current state of the country We focused on Gallup's published guidelines, stating that doubling the sample size from 1000 to 2000 would lower the margin of error from plus or minus 4 \% to plus or minus 2 \%. Subsequently, we used multiple statistical approaches including simulation, resampling, and theoretical calculations to examine how margins of error behave across different sample sizes and population proportions. Ultimately, through graphing and statistical analysis, we found that the Gallup guidelines on margin of error are accurate for the most part, although slightly conservative in certain scenarios. We also were able to find evidence suggesting that simulations can provide us with nearly identical results to mathematical calculations.
+In this lab we were interested in studying margin of error, specifically the accuracy and methodology of margins of error in research. For this lab, we looked at a February 2025 Gallup poll which was conducted to gauge how happy American adults are with the current state of the country. We focused on Gallup's published guidelines, stating that doubling the sample size from 1000 to 2000 would lower the margin of error from plus or minus 4\% to plus or minus 2\%. Subsequently, we used multiple statistical approaches including simulation, resampling, and theoretical calculations to examine how margins of error behave across different sample sizes and population proportions. Ultimately, through graphing and statistical analysis, we found that the Gallup guidelines on margin of error are accurate for the most part, although slightly conservative in certain scenarios. We also were able to find evidence suggesting that simulations can provide us with nearly identical results to mathematical calculations.
 
 \end{abstract}
 
@@ -119,7 +119,7 @@ Finally, our last task was to perform the Wilson margin of error calculation to 
 Pictured below is the histogram showing the simulation we ran with a sample size of 1004.
 \includegraphics[width=0.435\textwidth]{hhhh.pdf}
 \indent 
-This histogram is unimodal and is centered around p-hat=0.39. The margin of error comes out to about 3 \%, which is actually slightly less than Gallup's margin of error of 4 \&. Since our margin of error came out to be a little less than Gallup's, it is possible that they were slightly conservative when reporting their margin of error for their actual sample size.
+This histogram is unimodal and is centered around p-hat=0.39. The margin of error comes out to about 3\%, which is actually slightly less than Gallup's margin of error of 4\&. Since our margin of error came out to be a little less than Gallup's, it is possible that they were slightly conservative when reporting their margin of error for their actual sample size.
 \newline
 \indent 
 Now, we can take a look at the histogram showing the sample size of 2008, twice the original size.
@@ -127,20 +127,20 @@ Now, we can take a look at the histogram showing the sample size of 2008, twice 
   \includegraphics[width=0.435\textwidth]{2008sample.pdf}
 \end{center}
 \indent 
-This histogram looks extremely similiar to the one we just saw. It is also unimodal, and is also centered around p-hat=0.39. For this sample size, the margin of error comes out to just around 2 \%, which is what Gallup predicted it would be if they were able to have double the sample size.
+This histogram looks extremely similiar to the one we just saw. It is also unimodal, and is also centered around p-hat=0.39. For this sample size, the margin of error comes out to just around 2\%, which is what Gallup predicted it would be if they were able to have double the sample size.
 \newline
 \indent
 Unsurprisingly, the resampling histogram seen below looks extremely similiar to the previous two graphs.
 \includegraphics[width=0.435\textwidth]{resampling.pdf}
 \indent 
-Just like the previous histograms, this one is also unimodal and centered around p-hat=0.39. Similarily to our first simulations graph, the margin of error found by resampling is just about 3 \%, which as we saw is slightly lower than Gallup's reported 4 \%.
+Just like the previous histograms, this one is also unimodal and centered around p-hat=0.39. Similarily to our first simulations graph, the margin of error found by resampling is just about 3\%, which as we saw is slightly lower than Gallup's reported 4\%.
 \newline
 \indent
-Finally, we have the two raster plots which have been combined using \texttt{patchwork} \citep{patchwork}, and placed in the Appendix so that the nuanced differences between the plots can be more easily recognized. Graphically, these two plots appear to be nearly identical, which is because they are in fact nearly identical. For each plot, the margin of error changes in exactly the same was as the sample size and population proportion's each increase. Together, these plots show how resampling data provides us with nearly identical results to running a simulation with typically unobtainable sample sizes. The only difference in the plots is the pixelation which can be seen around the base of the simulation graph. The pixelation is a visual artifact of limited data in the simulation. The math-based plot, however, is built from our theoretical model so it is completely smooth.
+Finally, we have the two raster plots which have been combined using \texttt{patchwork} \citep{patchwork}, and placed in the Appendix so that the nuanced differences between the plots can be more easily recognized. Graphically, these two plots appear to be nearly identical, which is because they are in fact nearly identical. For each plot, the margin of error changes in exactly the same was as the sample size and population proportion's each increase. Together, these plots show how running a simulation enough times with a large enough sample size provides us with nearly identical results to the true values found through mathematical calculations. The only difference in the plots is the pixelation which can be seen around the base of the simulation graph. The pixelation is a visual artifact of limited data in the simulation. The math-based plot, however, is built from our theoretical model so it is completely smooth.
 
 
 \section{Discussion}
-This lab explored margin of error in polling data using simulations, resampling, and mathematical calculations. Our findings largely confirmed Gallup's guideline that doubling the sample size from 1000 to 2000 reduces the margin of error from 4 \% to 2 \%, though our simulation with a sample size of 1004 showed a slightly lower margin of error when compared to Gallup's. Furthermore, our side by side raster plots show that when a simulation is run enough times with a large enough sample size, the margin of error it produces is virtually just as accurate as mathematically calculating the true margin of error. 
+This lab explored margin of error in polling data using simulations, resampling, and mathematical calculations. Our findings largely confirmed Gallup's guideline that doubling the sample size from 1000 to 2000 reduces the margin of error from 4\% to 2\%, though our simulation with a sample size of 1004 showed a slightly lower margin of error when compared to Gallup's. Furthermore, our nearly identical side by side raster plots show that when a simulation is run enough times with a large enough sample size, the margin of error it produces is virtually just as accurate as mathematically calculating the true margin of error. These findings back up and reinforce our understanding of the central limit theorem, which tells us that as sample sizes increase, the sampling distribution of the sample proportion becomes approximately normal, allowing both simulation and theoretical methods to converge on the same result.
 
 
 
@@ -162,13 +162,12 @@ This lab explored margin of error in polling data using simulations, resampling,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Appendix
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
-\onecolumn
 \section{Appendix}
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=.97\textwidth, trim=0 0 0 0, clip]{Combined.png}
-    \caption{Side by Side Raster Plots Comparing Margin of Error Estimates: Simulation vs. Wilson Formula}
-\end{figure}
+\vspace{-1em} % tighten vertical space
+\centering
+\includegraphics[width=1\textwidth]{Combined.png}
+\vspace{-0.5em}
+\captionof{figure}{Side by Side Raster Plots Comparing Margin of Error Estimates: Simulation vs. Wilson Formula}
+
 
 \end{document}
